@@ -16,26 +16,36 @@ request('https://inshorts.com/en/read', (error, response, html) => {
             const title = $(el)
             .find('.news-card-title a')
             .find('span').text()
-            .replace(/short+/g, '\n\n');
+            .replace(/short+/g, '\n');
 
             const newTitle= title.replace(/,/g, '');
+
+            titleArray = newTitle.split('\n')
 
             const content = $(el)
             .find('.news-card-content')
             .find('div')
-            .text()
-            .replace(/short by .+/g, '')
+            .text() 
+            .replace(/short by .+\s\s+.+/gm, '')
 
+            contentt = content.replace(/\s\s+/gm, 'mynewhack')
 
-            const newContent= content.replace(/\d\d:\d\d .+/g, '');
+            contentArray = contentt.split('mynewhack')
 
-            const newwContent = newContent.replace(/,/g, '');
+            // const newContent= content.replace(/\d\d:\d\d .+/g, '');
+
+            // const newwContent = newContent.replace(/,/g, '');
+
+            // contentArr = newwContent.split('/\s\s/g')
 
             console.log(newTitle)
-            console.log(newwContent)
+            // console.log(newwContent)
+            console.log(titleArray)
+            console.log(content)
+            console.log(contentArray)
 
         // Write Row To CSV
-        writeStream.write(`${title}, ${newwContent} \n`);
+        // writeStream.write(`${title}, ${newwContent} \n`);
 
         })
     }
