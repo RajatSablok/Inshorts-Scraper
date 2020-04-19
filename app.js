@@ -4,10 +4,12 @@ const app = express();
 const allNews = require('./api/routes/english/all');
 const nationalNews = require('./api/routes/english/national');
 const businessNews = require('./api/routes/english/business');
+const worldNews = require('./api/routes/english/world');
 
 app.use("/en/all", allNews);
 app.use("/en/national", nationalNews);
 app.use("/en/business", businessNews);
+app.use("/en/world", worldNews);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
