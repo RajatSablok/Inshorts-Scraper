@@ -10,6 +10,10 @@ const politicsNews = require('./api/routes/english/politics');
 const technologyNews = require('./api/routes/english/technology');
 const startupNews = require('./api/routes/english/startup');
 const entertainmentNews = require('./api/routes/english/entertainment');
+const hatkeNews = require('./api/routes/english/hatke');
+const miscellaneousNews = require('./api/routes/english/miscellaneous');
+const scienceNews = require('./api/routes/english/science');
+const automobileNews = require('./api/routes/english/automobile');
 
 app.use("/en/all", allNews);
 app.use("/en/national", nationalNews);
@@ -20,6 +24,10 @@ app.use("/en/politics", politicsNews);
 app.use("/en/technology", technologyNews);
 app.use("/en/startup", startupNews);
 app.use("/en/entertainment", entertainmentNews);
+// app.use("/en/hatke", hatkeNews);
+app.use("/en/   ", miscellaneousNews);
+app.use("/en/science", scienceNews);
+app.use("/en/automobile", automobileNews);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
