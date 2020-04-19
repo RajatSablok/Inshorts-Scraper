@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 
 const allNews = require('./api/routes/english/all');
+const nationalNews = require('./api/routes/english/national');
 
 app.use("/en/all", allNews);
+app.use("/en/national", nationalNews);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
