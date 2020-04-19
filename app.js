@@ -7,6 +7,9 @@ const businessNews = require('./api/routes/english/business');
 const worldNews = require('./api/routes/english/world');
 const sportsNews = require('./api/routes/english/sports');
 const politicsNews = require('./api/routes/english/politics');
+const technologyNews = require('./api/routes/english/technology');
+const startupNews = require('./api/routes/english/startup');
+const entertainmentNews = require('./api/routes/english/entertainment');
 
 app.use("/en/all", allNews);
 app.use("/en/national", nationalNews);
@@ -14,6 +17,9 @@ app.use("/en/business", businessNews);
 app.use("/en/world", worldNews);
 app.use("/en/sports", sportsNews);
 app.use("/en/politics", politicsNews);
+app.use("/en/technology", technologyNews);
+app.use("/en/startup", startupNews);
+app.use("/en/entertainment", entertainmentNews);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
