@@ -5,11 +5,14 @@ const allNews = require('./api/routes/english/all');
 const nationalNews = require('./api/routes/english/national');
 const businessNews = require('./api/routes/english/business');
 const worldNews = require('./api/routes/english/world');
+const sportsNews = require('./api/routes/english/sports');
+
 
 app.use("/en/all", allNews);
 app.use("/en/national", nationalNews);
 app.use("/en/business", businessNews);
 app.use("/en/world", worldNews);
+app.use("/en/sports", sportsNews);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");

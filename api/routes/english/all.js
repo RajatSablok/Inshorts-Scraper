@@ -28,6 +28,8 @@ router.get('/', (req, res, next) => {
                 .find('span').text()
     
                 titleArray = title.split('short')
+
+                titleArray.splice(-1,1)
     
                 // for (var i = 0; i < titleArray.length; i++) {
                 //     titleObj.push({"title": titleArray[i]})
@@ -42,7 +44,9 @@ router.get('/', (req, res, next) => {
                 .trim()
                 
                 contentArray = content.split('ezpz')
-    
+                
+                contentArray.splice(-1,1)
+
                 for (var i = 0; i < contentArray.length; i++) {
                     contentArray[i] = contentArray[i].trim()
                 }

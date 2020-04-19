@@ -17,7 +17,7 @@ var resultObj = []
 
 
 router.get('/', (req, res, next) => {
-    request('https://inshorts.com/en/read/world', (error, response, html) => {
+    request('https://inshorts.com/en/read/sports', (error, response, html) => {
         if( !error && response.statusCode == 200) {
             const $ = cheerio.load(html);
           
@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
                 .find('span').text()
     
                 titleArray = title.split('short')
-                
+    
                 titleArray.splice(-1,1)
 
                 // for (var i = 0; i < titleArray.length; i++) {
@@ -76,7 +76,7 @@ router.get('/', (req, res, next) => {
             
             res.status(200).json({
                 language: 'English',
-                category: 'World',
+                category: 'Sports',
                 message: inshortsData
             })
         }
