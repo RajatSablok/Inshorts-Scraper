@@ -8,7 +8,7 @@ writeStream.write(`Title,Content \n`);
 var titleArray = []
 var contentArray = []
 var result = {};
-const inshortsData = []
+var inshortsData = {}
 var title
 var content
 var titleObj = []
@@ -58,15 +58,11 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
 
             for (var i = 0; i < titleArray.length; i++) {
 
-                // resultObj.push({"title": titleArray[i]}, {"news": contentArray[i]})
-
                 resultObj.push({
                     
                     "title": titleArray[i],
                     "news": contentArray[i]
                   })
-
-                
             }
 
             // console.log(titleArray)
@@ -79,12 +75,10 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
         // writeStream.write(`${title}, ${newwContent} \n`);
 
         })
-        console.log(titleArray)
-        console.log('test')
-        console.log(contentArray[5])
-        console.log('test')
-        // console.log(result)
-        console.log(resultObj)
+
+        inshortsData = {"data" : resultObj}
+
+        console.log(inshortsData)
 
 
     }
