@@ -1,10 +1,8 @@
 const request = require('request');
 const cheerio = require('cheerio');
-const fs = require('fs');
-const writeStream = fs.createWriteStream('news.csv');
+const fs = require('fs')
+const json2csv = require('json2csv').Parser
 
-// Write Headers
-writeStream.write(`Title,Content \n`);
 var titleArray = []
 var contentArray = []
 var result = {};
@@ -27,9 +25,9 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
 
             titleArray = title.split('short')
 
-            for (var i = 0; i < titleArray.length; i++) {
-                titleObj.push({"title": titleArray[i]})
-            }
+            // for (var i = 0; i < titleArray.length; i++) {
+            //     titleObj.push({"title": titleArray[i]})
+            // }
             
             content = $(el)
             .find('.news-card-content')
@@ -45,13 +43,9 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
                 contentArray[i] = contentArray[i].trim()
             }
 
-            console.log(contentArray)
-
             //follow next two lines to remove the date and time (not needed in this version)
             // contentt = content.replace(/\s\s+/gm, 'mynewhack')
             // contentArray = contentt.split('mynewhack')
-
-            titleArray.forEach((key, i) => result[key] = contentArray[i]);
 
             link = $(el)
             .find('.news-card-author-time a ')
@@ -65,21 +59,16 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
                   })
             }
 
-            // console.log(titleArray)
-            // console.log(content)
-            // console.log(contentArray)
-
-            // console.log(result);
-
-        // Write Row To CSV
-        // writeStream.write(`${title}, ${newwContent} \n`);
-
         })
 
         inshortsData = {"data" : resultObj}
 
         console.log(inshortsData)
 
+        const j2cp = new json2csv()
+        const csv = j2cp.parse(inshortsData.data)
+        
+        fs.writeFileSync("./inshorts.csv", csv, "utf-8")
 
     }
 })
