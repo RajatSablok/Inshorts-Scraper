@@ -43,10 +43,6 @@ request('https://inshorts.com/en/read/', (error, response, html) => {
                 contentArray[i] = contentArray[i].trim()
             }
 
-            //follow next two lines to remove the date and time (not needed in this version)
-            // contentt = content.replace(/\s\s+/gm, 'mynewhack')
-            // contentArray = contentt.split('mynewhack')
-
             link = $(el)
             .find('.news-card-author-time a ')
 
