@@ -6,19 +6,23 @@ const json2csv = require('json2csv').Parser
 
 const router = express.Router();
 
-var titleArray = []
-var contentArray = []
-var result = {};
-var inshortsData = {}
-var title
-var content
-var titleObj = []
-var resultObj = []
-
-
 router.get('/', (req, res, next) => {
     request('https://inshorts.com/en/read/business', (error, response, html) => {
         if( !error && response.statusCode == 200) {
+
+            var titleArray = []
+            var contentArray = []
+            var result = {};
+            var inshortsData = {}
+            var title
+            var content
+            var titleObj = []
+            var resultObj = []
+            var image = []
+            var time = []
+            var date = []
+            var links = []
+
             const $ = cheerio.load(html);
           
             $('.card-stack').each((i,el) => {
@@ -28,12 +32,8 @@ router.get('/', (req, res, next) => {
                 .find('span').text()
     
                 titleArray = title.split('short')
-    
-                titleArray.splice(-1,1)
 
-                // for (var i = 0; i < titleArray.length; i++) {
-                //     titleObj.push({"title": titleArray[i]})
-                // }
+                titleArray.splice(-1,1)
                 
                 content = $(el)
                 .find('.news-card-content')
@@ -44,31 +44,49 @@ router.get('/', (req, res, next) => {
                 .trim()
                 
                 contentArray = content.split('ezpz')
-
+                
                 contentArray.splice(-1,1)
-    
+
                 for (var i = 0; i < contentArray.length; i++) {
                     contentArray[i] = contentArray[i].trim()
                 }
-    
-                link = $(el)
-                .find('.news-card-author-time a ')
-    
-                for (var i = 0; i < titleArray.length; i++) {
-    
-                    resultObj.push({
-                        
-                        "title": titleArray[i],
-                        "news": contentArray[i]
-                      })
-                }
-    
+        
             })
+
+            $("[class='news-card-image']").each(function(i, elem) {
+                var bg = $(this).css("background-image")
+                image[i] = bg.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '')
+            });
     
+            $("[itemprop='datePublished']").each(function(i, elem) {
+                time[i] = $(this).text()
+            });
+            
+            $("[class='date']").each(function(i, elem) {
+                date[i] = $(this).text()
+            });
+
+             $("a[class='source']").each(function(i, elem) {
+                links[i] = $(this).attr('href');
+            });
+
+            for (var i = 0; i < titleArray.length; i++) {
+    
+                resultObj.push({
+                    
+                    "title": titleArray[i],
+                    "news": contentArray[i],
+                    "image url": image[i],
+                    "date": date[i],
+                    "time": time[i],
+                    "read more at": links[i]
+                  })
+            }
+
             inshortsData = {"data" : resultObj}
-    
+            
             console.log(inshortsData)
-    
+
             const j2cp = new json2csv()
             const csv = j2cp.parse(inshortsData.data)
             
@@ -77,11 +95,14 @@ router.get('/', (req, res, next) => {
             res.status(200).json({
                 language: 'English',
                 category: 'Business',
-                message: inshortsData
+                news: inshortsData
+            })
+        } else {
+            res.json({
+                error: err
             })
         }
     })
 })
-
 
 module.exports = router;

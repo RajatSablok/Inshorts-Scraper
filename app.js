@@ -24,8 +24,8 @@ app.use("/en/politics", politicsNews);
 app.use("/en/technology", technologyNews);
 app.use("/en/startup", startupNews);
 app.use("/en/entertainment", entertainmentNews);
-// app.use("/en/hatke", hatkeNews);
-app.use("/en/   ", miscellaneousNews);
+app.use("/en/hatke", hatkeNews);
+app.use("/en/miscellaneous", miscellaneousNews);
 app.use("/en/science", scienceNews);
 app.use("/en/automobile", automobileNews);
 
